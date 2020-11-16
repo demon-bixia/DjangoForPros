@@ -1,0 +1,39 @@
+# docker-compose uses services instead of containers
+version: "3"
+
+services:
+  # define a service with name web
+  web:
+    # build the image in current directory
+    build: .
+    # execute this command to start this service
+    command: python /code/manage.py runserver 0.0.0.0:8000
+    # bind this directory with /code in container
+    volumes:
+      - .:/code 
+    # bind port 8000 in local machine with port 8000 in container
+    ports:
+      - 8000:8000
+    # don't run this service before db
+    depends_on:
+      - db
+
+  # define a database service with name db
+  db:
+    # build the container from this image
+    image: postgres
+
+    # add these env variables to container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+
+    volumes:
+      # bind /var/lib/postgresql/data in container with ...
+      #...postgres_data volume in host files system
+      - postgres_data:/var/lib/postgresql/data
+
+# list all named volumes in here
+volumes:
+  postgres_data:
