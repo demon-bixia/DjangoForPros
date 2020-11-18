@@ -4,6 +4,9 @@ version: "3"
 services:
   # define a service with name web
   web:
+    # set environment vairables file
+    env_file:
+        - .env
     # build the image in current directory
     build: .
     # execute this command to start this service

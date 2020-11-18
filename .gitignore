@@ -1,3 +1,9 @@
-/.history/
-/migrations/
+/.history
+
+/migrations
+**/migrations
+
 *.sqlite3
+
+**/.vscode
+/.vscode
