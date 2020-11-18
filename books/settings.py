@@ -166,3 +166,5 @@ ACCOUNT_UNIQUE_EMAIL=True # emails are unique
 
 # email settings
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # new
+
+DEFAULT_FROM_EMAIL = 'admin@djangbookstore.com'
