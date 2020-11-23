@@ -5,5 +5,9 @@
 
 {% block content %}
     <h1>Homepage</h1> 
-    <img src="{% static 'images/dfp.jpg' %}" alt="dfp" class="bookcover">
+    <form class="form-inline mt-2 mt-md-0" action="{% url 'book_search' %}"
+    method="get">
+    <input name="q" class="form-control mr-sm-2" type="text" placeholder="Search"
+    aria-label="Search">
+    </form>
 {% endblock content %}
