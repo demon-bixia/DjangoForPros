@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     "allauth",
     "allauth.account",
+    "debug_toolbar",
 
     # local
     'users.apps.UsersConfig',
@@ -57,7 +58,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+
+    # caches entire site
+    'django.middleware.cache.FetchFromCacheMiddleware',
+    ]
 
 ROOT_URLCONF = 'books.urls'
 
@@ -170,6 +175,21 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # new
 
 DEFAULT_FROM_EMAIL = 'admin@djangbookstore.com'
 
+
 # media settings
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+# however, since we’re running our web server within Docker an
+# additional step is required so that it matches the machine address of Docker. Add
+import socket
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
+
+
+# cache settings
+# explicity setting default variables
+CACHE_MIDDLEWARE_ALIAS = 'default'
+CACHE_MIDDLEWARE_SECONDS = 604800
+CACHE_MIDDLEARE_KEY_PREFIX = ''
