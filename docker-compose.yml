@@ -26,11 +26,9 @@ services:
     # build the container from this image
     image: postgres
 
-    # add these env variables to container
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+    # the file containing environment variables for runnig the database
+    env_file:
+        - .env
 
     volumes:
       # bind /var/lib/postgresql/data in container with ...

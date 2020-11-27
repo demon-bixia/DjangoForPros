@@ -15,6 +15,7 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+ENVIRONMENT = os.environ.get('ENVIRONMENT', default='development')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -25,7 +26,12 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get('DEBUG', default=0))
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    ".herokuapp.com"
+]
 
 # Application definition
 
@@ -193,3 +199,23 @@ INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
 CACHE_MIDDLEWARE_ALIAS = 'default'
 CACHE_MIDDLEWARE_SECONDS = 604800
 CACHE_MIDDLEARE_KEY_PREFIX = ''
+
+# production
+if ENVIRONMENT == 'production':
+    # enable xss protection header
+    SECURE_BROWSER_XSS_FILTER = True
+    # prevent loading iframes 
+    X_FRAME_OPTIONS = 'DENY' 
+    # force non https requests to be redirected to http
+    SECURE_SSL_REDIRECT = True
+    # force browsers to only interact via https
+    SECURE_HSTS_SECONDS = 3600 
+    # force sub-domains to only interact via https
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    # prevent browsers from guessing content-type
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    # force authorization cookies over https
+    SESSION_COOKIE_SECURE = True
+    # force csrf cookie over https
+    CSRF_COOKIE_SECURE = True
