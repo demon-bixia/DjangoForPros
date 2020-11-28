@@ -30,7 +30,7 @@ DEBUG = int(os.environ.get('DEBUG', default=0))
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
-    ".herokuapp.com"
+    "smaple-bookstore-project.herokuapp.com"
 ]
 
 # Application definition
@@ -227,7 +227,8 @@ if ENVIRONMENT == 'production':
     SESSION_COOKIE_SECURE = True
     # force csrf cookie over https
     CSRF_COOKIE_SECURE = True
-
+    # Set a tuple with two elements – the name of the header to look for and the required value
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 import dj_database_url
 # get database config suing DATABASE_URL env variable
