@@ -2,10 +2,6 @@
 setup:
   addons:
     - plan: heroku-postgresql
-  config:
-    SECRET_KEY: 9u3_^90e~`lt72gasx43-t=km!3e-hn1oikv1$s)sn2c=-y86kdn*o
-    DEBUG: 0
-    ENVIRONMENT: production
 
 # specify which dockerFile to build image with
 build:
