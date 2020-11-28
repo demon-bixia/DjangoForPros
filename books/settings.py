@@ -30,7 +30,7 @@ DEBUG = int(os.environ.get('DEBUG', default=0))
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
-    "smaple-bookstore-project.herokuapp.com"
+    "https://smaple-bookstore-project.herokuapp.com/"
 ]
 
 # Application definition
