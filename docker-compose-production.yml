@@ -6,7 +6,7 @@ services:
   web:
     # set environment vairables file
     env_file:
-        - development.env
+        - production.env
     # build the image in current directory
     build: .
     # execute this command to start this service
@@ -27,7 +27,7 @@ services:
     image: postgres
     # the file containing environment variables for runnig the database
     env_file:
-        - development.env
+        - production.env
     volumes:
       # bind /var/lib/postgresql/data in container with ...
       #...postgres_data volume in host files system

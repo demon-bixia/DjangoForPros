@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    # disable serving staticfiles with staticfiles app entirely
+    'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     "django.contrib.sites",
 
@@ -57,7 +59,11 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # update caching
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    # use whitenoise
+    'whitenoise.middleware.WhiteNoiseMiddleware', 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -155,6 +161,8 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
+# whitenoise storage compresses static files when running collectstatic
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # authentication app
@@ -195,12 +203,12 @@ INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
 
 
 # cache settings
-# explicity setting default variables
+# explicits setting default variables
 CACHE_MIDDLEWARE_ALIAS = 'default'
 CACHE_MIDDLEWARE_SECONDS = 604800
 CACHE_MIDDLEARE_KEY_PREFIX = ''
 
-# production
+# production settings
 if ENVIRONMENT == 'production':
     # enable xss protection header
     SECURE_BROWSER_XSS_FILTER = True
@@ -219,3 +227,13 @@ if ENVIRONMENT == 'production':
     SESSION_COOKIE_SECURE = True
     # force csrf cookie over https
     CSRF_COOKIE_SECURE = True
+
+
+import dj_database_url
+# get database config suing DATABASE_URL env variable
+# and set persistent database connection limit to 500
+# Persistent connections avoid the overhead of re-establishing a connection to the database in each request.
+# They’re controlled by the CONN_MAX_AGE parameter which defines the maximum lifetime of a connection 
+db_from_env = dj_database_url.config(conn_max_age=500)
+# switch to heroku database
+DATABASES['default'].update(db_from_env)
