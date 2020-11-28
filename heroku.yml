@@ -16,4 +16,4 @@ release:
 
 # how to run this project
 run:
-  web: gunicorn bookstore_project.wsgi
+  web: gunicorn books.wsgi
